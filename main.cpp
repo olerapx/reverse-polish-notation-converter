@@ -8,10 +8,7 @@ void convertFileToFile(std::ifstream & input, std::ofstream &output);
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    List<int> list;
-    list<<23;
-    list<<4335;
-    std::cout <<list[1];
+
     std::cout <<"Type filename with expressions\n";
 
     std::string inputFile, outputFile;
