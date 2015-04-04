@@ -3,18 +3,17 @@
 
 int SymbolDefiner::getType(char s){
 
-    for (int i=0;i<operationsNumber;i++)
-        if (s==operations[i].symb){
-            if (i==0) return SYMBOL_LBRACKET;
-          else  if (i==1) return SYMBOL_RBRACKET;
-          else  return SYMBOL_OPERATION;
+    if (s==operations[0].symb) return SYMBOL_LBRACKET;
+    if (s==operations[1].symb) return SYMBOL_RBRACKET;
 
-        }
+    for (int i=2;i<operationsNumber;i++)
+        if (s==operations[i].symb) return SYMBOL_OPERATION;
 
- if (isdigit(s)|| isalpha(s) || s=='.') return SYMBOL_OPERAND;
- if (s=='\0') return SYMBOL_ZERO;
 
-return SYMBOL_OTHER;
+    if (isdigit(s)|| isalpha(s) || s=='.') return SYMBOL_OPERAND;
+    if (s=='\0') return SYMBOL_ZERO;
+
+    return SYMBOL_OTHER;
 }
 
 int SymbolDefiner::getPriority(char s){
@@ -22,5 +21,5 @@ int SymbolDefiner::getPriority(char s){
         if (s==operations[i].symb){
             return operations[i].priority;
         }
-return -1;
+    return -1;
 }

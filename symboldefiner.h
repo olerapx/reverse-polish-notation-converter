@@ -1,7 +1,7 @@
 #ifndef SYMBOLDEFINER_H
 #define SYMBOLDEFINER_H
 
-//используется для определения типа символа
+//for symbol type and priority definition
 enum{
     SYMBOL_LBRACKET,
     SYMBOL_RBRACKET,
@@ -19,14 +19,14 @@ private:
     char symb;
     int priority;
 }operations[operationsNumber]= {{'(',0}, {')',1},
-                                {'|',2}, //ИЛИ
-                                {'&',3}, //И
-                                {'!',4}, //НЕ
+                                {'|',2}, //OR
+                                {'&',3}, //AND
+                                {'!',4}, //NOT
                                 {'<',5},{'>',5},
-                                {'=',5},{'~',5}, //равно/не равно
+                                {'=',5},{'~',5}, //equal/not equal
                                 {'+',6},{'-',6},
                                 {'*',7},{'/',7},
-                                {'^',8}};
+                                {'^',8}};//power
 
 public:
 int getType(char s);

@@ -100,7 +100,7 @@ void List<T>::add(const T& value)
           {
               node->next=replaceNode;
               node->prev=replaceNode->prev;
-                replaceNode->prev->next=node;
+              replaceNode->prev->next=node;
               replaceNode->prev=node;
 
           }
@@ -125,18 +125,13 @@ template <typename T>
 int List<T>::indexOf(const T &value)
 {
 
-   int index=-1;
-   if(len==0) return index;
-
    Node<T>* currNode=first;
-   index=0;
-   while(index!=len){
-
-       if (currNode->value==value)return index;
-
-       index++;
-       currNode=currNode->next;
+   for(int i=0;i<len;i++)
+   {
+         if (currNode->value==value)return i;
+           currNode=currNode->next;
    }
+
    return -1;
 
 }
@@ -163,7 +158,6 @@ const T& List<T>::at(int index)
 template <typename T>
 void List<T>::removeValue (const T &value)
 {
-    if(!isExists(value))return;
 
   Node<T>* node=getNodeByValue(value);
   if (node==nullptr) return;

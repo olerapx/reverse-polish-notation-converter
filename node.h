@@ -7,7 +7,7 @@ class Node
 {
 public:
     T value;
-   Node<T>* next, *prev;
+    Node<T>* next, *prev;
     Node(const T &element);
     ~Node();
 

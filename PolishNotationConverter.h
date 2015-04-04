@@ -10,8 +10,11 @@ class PolishNotationConverter
     int len;
   Stack<char>* stack;
 std::string input;
-   void handleToken (char token, std::string &output, const int currIndex);   //обработка символа входящей строки
-   void handleOperation (char token, std::string & output); //обработка символа операции
+    //handle of characters of input string
+   void handleToken (char token, std::string &output, const int currIndex);
+
+   //will be called if character is operation
+   void handleOperation (char token, std::string & output);
 
 public:
 

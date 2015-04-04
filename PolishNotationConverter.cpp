@@ -7,15 +7,15 @@
       input=string;
       std::string output;
 
-    for (int i=0;i<len;i++)
-    {
-        char token=input[i];
-        handleToken(token,output,i);
-    }
-    delete stack;
-    return output;
+      for (int i=0;i<len;i++)
+      {
+          char token=input[i];
+          handleToken(token,output,i);
+      }
+      delete stack;
+      return output;
 
-  }
+    }
 
 
  void PolishNotationConverter::handleToken (char token, std::string &output, const int currIndex)
@@ -24,7 +24,7 @@
      switch(sdef.getType(token)){
      case SYMBOL_OPERAND:
          output+=token;
-         if (sdef.getType(input[currIndex+1])!=SYMBOL_OPERAND) //разграничение чисел пробелами
+         if (sdef.getType(input[currIndex+1])!=SYMBOL_OPERAND) //delim operands by spaces
              output+=' ';
          break;
      case SYMBOL_OPERATION:
@@ -47,7 +47,7 @@
 
  }
 
-//обработка символа операции
+
  void PolishNotationConverter::handleOperation (char token, std::string & output)
  {
      SymbolDefiner sdef;
