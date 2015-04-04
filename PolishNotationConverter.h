@@ -1,5 +1,5 @@
-#ifndef PolandNotationConverter_H
-#define PolandNotationConverter_H
+#ifndef PolishNotationConverter_H
+#define PolishNotationConverter_H
 #include "stack.h"
 #include "symboldefiner.h"
 #include <string>

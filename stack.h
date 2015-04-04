@@ -35,15 +35,15 @@ Stack<T>::~Stack<T>(){
 
 template<typename T>
 void Stack<T>::push( T element){
-      _stack.add(element);
+      _stack << element;
       _tos++;
 }
 
 
 template <typename T>
 T Stack<T>::pop(){
-    T val= _stack.at(_tos);
-     _stack.deleteByIndex(_tos--);
+    T val= _stack[_tos];
+     _stack.removeAt(_tos--);
     return val;
 }
 
@@ -55,7 +55,7 @@ bool Stack<T>::isEmpty(){
 template <typename T>
 T Stack<T>::getTos(){
     if (_tos>=0)
-        return  _stack.at(_tos);
+        return  _stack[_tos];
 
 
 }

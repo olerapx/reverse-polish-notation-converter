@@ -8,32 +8,36 @@ class List
 {
 private:
     unsigned int len;
+    Node<T> * first;
+    Node<T> * last;
     //for delete and insert operations
     Node<T>* getNodeByValue(const T& value);
     Node<T>* getNodeByIndex(int index);
      void deleteNode (Node<T>* node);
 public:
-  Node<T> * first;
-  Node<T> * last;
+     List();
+     ~List();
+
   void add(const T &value);
+  inline void operator << (const T& value) {add(value);}
   void insert (const T& value, int index);
 
   const T &at(int index);
+  inline const T & operator [] (int index){ return at(index);}
   int indexOf(const T& value);
 
-  void deleteByValue (const T& value);
-  void deleteByIndex(int index);
+  void removeValue (const T& value);
+  void removeAt(int index);
 
   void clear();
 
   bool isExists (const T& value);
   inline bool isEmpty(){ return (len==0);}
   inline unsigned int Len(){return len;}
-    List();
-    ~List();
+
 };
 
-#endif // LIST_H
+
 
 template<typename T>
 List<T>::List()
@@ -71,7 +75,43 @@ void List<T>::add(const T& value)
  template <typename T>
  void List<T>::insert (const T& value, int index)
  {
+   try{
+         if (index<0 || index>len)throw std::out_of_range("Incorrect index");
 
+         if (index==len)
+         {
+             add(value);
+             return;
+         }
+
+          Node<T> *replaceNode = getNodeByIndex(index);
+          Node<T>* node=new Node<T> (value);
+
+
+          if(index==0)
+          {
+              node->next=replaceNode;
+              node->prev=nullptr;
+              replaceNode->prev=node;
+              first=node;
+
+          }
+          else
+          {
+              node->next=replaceNode;
+              node->prev=replaceNode->prev;
+                replaceNode->prev->next=node;
+              replaceNode->prev=node;
+
+          }
+
+          if (index==len-1) last=replaceNode;
+
+          len++;
+    }
+     catch (std::out_of_range)
+     {
+     }
  }
 
 template <typename T>
@@ -101,21 +141,11 @@ int List<T>::indexOf(const T &value)
 
 }
 
-template <typename T>
-void List<T>::deleteByValue (const T &value)
-{
-    if(!isExists(value))return;
-
-  Node<T>* node=getNodeByValue(value);
-  if (node==nullptr) return;
-  deleteNode(node);
-}
-
 template<typename T>
 const T& List<T>::at(int index)
 {
     try
-    {       
+    {
         if (len==0 || index<0 || index>=len) throw std::out_of_range("Incorrect index");
 
         Node<T>* currNode=first;
@@ -130,61 +160,76 @@ const T& List<T>::at(int index)
     }
 }
 
-template<typename T>
-Node<T>* List<T>::getNodeByValue(const T& value)
+template <typename T>
+void List<T>::removeValue (const T &value)
 {
+    if(!isExists(value))return;
 
-    Node<T>* currNode=first;
-
-    for(int i=0;i<len;i++){
-        if (currNode->value==value)return currNode;
-        currNode=currNode->next;
-    }
-
-    return nullptr;
+  Node<T>* node=getNodeByValue(value);
+  if (node==nullptr) return;
+  deleteNode(node);
 }
 
 template <typename T>
-  void List<T>::deleteByIndex(int index)
-  {     
-      if (len==0 || index<0 ||index >= len) return;
-         Node<T>* node=getNodeByIndex(index);
-      deleteNode(node);
-
-  }
-
-  template <typename T>
-  void List<T>::clear()
+void List<T>::removeAt(int index)
   {
-      int t_len=len;
-    for (int i=0;i<t_len;i++)
-    {
-     deleteByIndex(0);
-    }
+      try{
+          if (len==0 || index<0 ||index >= len) throw std::out_of_range ("Incorrect index");
+          Node<T>* node=getNodeByIndex(index);
+          deleteNode(node);
+      }
+      catch (std::out_of_range)
+      {
+      }
   }
 
-  template<typename T>
-   Node<T>* List<T>::getNodeByIndex(int index)
+
+template <typename T>
+void List<T>::clear()
+  {
+    int t_len=len;
+    for (int i=0;i<t_len;i++)
+        removeAt(0);
+  }
+
+
+template<typename T>
+Node<T>* List<T>::getNodeByValue(const T& value)
+ {
+
+     Node<T>* currNode=first;
+
+     for(int i=0;i<len;i++){
+              if (currNode->value==value)return currNode;
+              currNode=currNode->next;
+          }
+
+     return nullptr;
+ }
+
+
+template<typename T>
+Node<T>* List<T>::getNodeByIndex(int index)
 {
- Node<T>* node=first;
- for (int i=0;i<index;i++)
-     node=node->next;
- return node;
+     Node<T>* node=first;
+     for (int i=0;i<index;i++)
+         node=node->next;
+     return node;
 
 }
 
-  template <typename T>
-  void List<T>::deleteNode (Node<T>* node)
+template <typename T>
+void List<T>::deleteNode (Node<T>* node)
    {
 
-       if (node==first &&node==last){
+    if (node==first &&node==last){
            first=nullptr;
            last=nullptr;
            len--;
            return;
        }
 
-       if (node==first)
+    if (node==first)
        {
            first=node->next;
            node->next->prev=nullptr;
@@ -192,16 +237,18 @@ template <typename T>
            return;
        }
 
-       if(node==last){
+    if(node==last){
          last=node->prev;
          node->prev->next=nullptr;
          len--;
          return;
        }
 
-       node->prev->next=node->next;
-       node->next->prev=node->prev;
-       len--;
-       delete node;
+    node->prev->next=node->next;
+    node->next->prev=node->prev;
+    len--;
+    delete node;
 
    }
+
+  #endif // LIST_H
